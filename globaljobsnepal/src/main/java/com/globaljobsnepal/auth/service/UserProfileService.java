@@ -71,6 +71,7 @@ public class UserProfileService implements BaseService<UserProfile> {
         userProfile.ifPresent(profile->{
             profile.setFirstName(user.getFirstName());
             profile.setLastName(user.getLastName());
+            profile.setEmail(user.getEmail());
         });
 
         return userProfile;

@@ -32,6 +32,8 @@ public class UserProfile extends BaseEntity<Long> {
     private AddressDto address;
 
     private String phone;
+
+
     private String education;
 
     private String skills;
@@ -61,4 +63,7 @@ public class UserProfile extends BaseEntity<Long> {
     private String firstName;
     @Transient
     private String lastName;
+
+    @Transient
+    private String email;
 }
