@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,16 +30,19 @@ public class SpringSecurityAuditorAware implements AuditorAware<Long> {
     public Optional<Long> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication instanceof AnonymousAuthenticationToken) {
-            return Optional.empty();
-        }
+//        if (authentication == null || !authentication.isAuthenticated() ||
+//                authentication instanceof AnonymousAuthenticationToken) {
+//            return Optional.empty();
+//        }
+//
+//        Object principal = authentication.getPrincipal();
+//        if (principal instanceof UserDetails) {
+//            String email = ((UserDetails) principal).getUsername();
+//            Long id = getCurrentUserId(email);
+//            return Optional.of(id);
+//        }
 
-        if (authentication.getName() != null) {
-            Long id = getCurrentUserId(authentication.getName());
-            return Optional.of(id);
-        }
-
-        throw new RuntimeException("Invalid token");
+        return Optional.empty();
     }
 
 

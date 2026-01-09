@@ -1,5 +1,9 @@
 package com.globaljobsnepal.auth.dto.request;
 
+import com.globaljobsnepal.auth.enums.UserType;
+
+
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,20 +25,16 @@ public class UserRegisterRequest {
 
     private Long id;
 
-    @NotNull(message = "Email can't be null")
-    @NotEmpty(message = "Email can't be empty")
+    @NotBlank(message = "Email can't be empty")
     private String email;
 
-    @NotNull(message = "First Name can't be null")
-    @NotEmpty(message = "First Name can't be empty")
+    @NotBlank(message = "First Name can't be empty")
     private String firstName;
 
-    @NotNull(message = "Last Name can't be null")
-    @NotEmpty(message = "Last Name can't be empty")
+    @NotBlank(message = "Last Name can't be empty")
     private String lastName;
 
-    @NotNull(message = "Password can't be null")
-    @NotEmpty(message = "Password can't be empty")
+    @NotBlank(message = "Password can't be empty")
 
     private String password;
     private Set<String> role;
@@ -42,4 +42,7 @@ public class UserRegisterRequest {
     private String phoneNumber;
 
     private Boolean serverCompressor;
+
+    @NotNull
+    private UserType userType;
 }

@@ -36,6 +36,7 @@ public class UserMapper {
         user.setEmail(userDto.getEmail());
         user.setServerCompressor(userDto.getServerCompressor());
         user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setUserType(userDto.getUserType());
 
 
         if (user.getId() == null) {

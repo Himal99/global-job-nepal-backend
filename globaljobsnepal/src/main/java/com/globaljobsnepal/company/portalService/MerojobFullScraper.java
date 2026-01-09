@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MerojobFullScraper {
@@ -158,7 +157,7 @@ public class MerojobFullScraper {
                                 .companyName(companyName)
                                 .location(location)
                                 .url(jobUrl)
-                                .createdAt(publishedOn)
+                                .postedAt(publishedOn)
                                 .jobDescription(jobDescription)
                                 .applyBefore(applyBefore)
                                 .build());

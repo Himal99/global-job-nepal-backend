@@ -46,7 +46,7 @@ public class MeroRojgariScraper {
                             .builder()
                             .jobTitle(title)
                             .applyBefore("")
-                            .createdAt(postedDate)
+                            .postedAt(postedDate)
                             .location(location)
                             .companyName(company)
                             .url(url)

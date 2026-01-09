@@ -1,7 +1,6 @@
 package com.globaljobsnepal.auth.dto.request;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,12 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginRequest {
 
-    @NotNull(message = "Email can't be null")
-    @NotEmpty(message = "Email can't be empty")
+    @NotBlank(message = "Email can't be empty")
     private String email;
 
-    @NotNull(message = "Password can't be null")
-    @NotEmpty(message = "Password can't be empty")
+    @NotBlank(message = "Password can't be empty")
     private String password;
 
 }

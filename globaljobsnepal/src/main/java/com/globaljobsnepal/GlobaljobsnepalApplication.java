@@ -13,9 +13,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.sql.DataSource;
 
+@EnableAsync
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @SpringBootApplication
 public class GlobaljobsnepalApplication {

@@ -48,7 +48,7 @@ public class UserController {
     private final MailSenderService mailSenderService;
 
     @PostMapping(REGISTER)
-    ResponseEntity<ResponseModel> register(@Validated @RequestBody UserRegisterRequest userRegisterRequest) {
+    ResponseEntity<ResponseModel> register(@Valid @RequestBody UserRegisterRequest userRegisterRequest) {
         Long userId = null;
         try {
             userId = this.userService.addOrEditUser(userRegisterRequest);
@@ -75,7 +75,8 @@ public class UserController {
         return ApiResponse.success(HttpStatus.OK, "Login is successful",
                 new LoginResponse(jwtToken, "Token generated successfully!", user.getFullName(), user.getUserRole(),
                         user.getEmail(), user.getServerCompressor(), user.getUserConfiguration().isImage(), user.getUserConfiguration().isPdf(),
-                        user.getUserConfiguration().isMovie(), user.getHasChangedPassword() == null ? Boolean.TRUE : user.getHasChangedPassword()));
+                        user.getUserConfiguration().isMovie(), user.getHasChangedPassword() == null ? Boolean.TRUE : user.getHasChangedPassword(),
+                        user.getUserType()));
     }
 
     @PostMapping(LOGIN_API_USERS)

@@ -2,6 +2,7 @@ package com.globaljobsnepal.auth.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.globaljobsnepal.auth.enums.UserType;
 import com.globaljobsnepal.core.entity.BaseEntity;
 import com.globaljobsnepal.core.enums.Status;
 import jakarta.persistence.*;
@@ -61,6 +62,9 @@ public class User extends BaseEntity<Long> implements UserDetails {
 
     private Boolean hasChangedPassword = Boolean.FALSE;
     private Boolean hasResetPassword = Boolean.FALSE;
+
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 
 
     public String getUserRole() {

@@ -3,12 +3,15 @@ package com.globaljobsnepal.core.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.naming.AuthenticationException;
 import java.nio.file.AccessDeniedException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Himal Rai on 1/14/2024
@@ -45,5 +48,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ResponseModel> handleBadCredentialsExceptions(BadCredentialsException ex) {
         return ApiResponse.error(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error -> {
+            // This will use your custom message from the annotation
+            errors.put(error.getField(), error.getDefaultMessage());
+        });
+        return ResponseEntity.badRequest().body(errors);
     }
 }

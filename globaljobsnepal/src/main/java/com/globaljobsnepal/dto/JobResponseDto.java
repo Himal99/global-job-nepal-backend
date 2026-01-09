@@ -19,7 +19,7 @@ import lombok.*;
 public class JobResponseDto {
     private String jobTitle;
     private String jobDescription;
-    private String createdAt;
+    private String postedAt;
     private String location;
     private String companyName;
     private String url;
@@ -32,7 +32,7 @@ public class JobResponseDto {
         return "JobResponseDto{" +
                 "jobTitle='" + jobTitle + '\'' +
                 ", jobDescription='" + jobDescription + '\'' +
-                ", createdAt='" + createdAt + '\'' +
+                ", createdAt='" + postedAt + '\'' +
                 ", location='" + location + '\'' +
                 ", companyName='" + companyName + '\'' +
                 ", url='" + url + '\'' +

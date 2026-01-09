@@ -1,5 +1,8 @@
 package com.globaljobsnepal.company.portalService;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.globaljobsnepal.company.entity.Vacancy;
+import com.globaljobsnepal.company.service.VacancyService;
 import com.globaljobsnepal.dto.JobResponseDto;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.jsoup.Jsoup;
@@ -10,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +29,16 @@ import java.util.List;
 
 @Service
 public class JobJeeScrapper {
-    public List<JobResponseDto> getJobs() throws InterruptedException {
+
+    private final VacancyService vacancyService;
+
+    public JobJeeScrapper(VacancyService vacancyService) {
+        this.vacancyService = vacancyService;
+    }
+
+    public List<Vacancy> getJobs() throws InterruptedException {
+
+
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // Run in headless mode
@@ -102,6 +115,13 @@ public class JobJeeScrapper {
             driver.quit();
         }
 
-        return jobResponseDtos;
+        List<Vacancy> vacancies =
+
+                new ObjectMapper().convertValue(jobResponseDtos, new ObjectMapper()
+                        .getTypeFactory().constructCollectionType(List.class, Vacancy.class));
+
+        vacancyService.saveAllInBatches(vacancies);
+
+        return vacancies;
     }
 }

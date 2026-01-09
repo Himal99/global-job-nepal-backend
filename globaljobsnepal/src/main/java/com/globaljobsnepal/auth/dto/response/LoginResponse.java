@@ -1,5 +1,6 @@
 package com.globaljobsnepal.auth.dto.response;
 
+import com.globaljobsnepal.auth.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,7 @@ public class LoginResponse {
     private Boolean isPdfCompression;
     private Boolean isVideoCompression;
     private Boolean isPasswordChanged;
+    private UserType userType;
 
     public LoginResponse(String jwtToken, String s, String email) {
         this.token = jwtToken;
