@@ -66,6 +66,9 @@ public class User extends BaseEntity<Long> implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserProfile userDetails;
+
 
     public String getUserRole() {
         for (Role role : this.getRoles()) {

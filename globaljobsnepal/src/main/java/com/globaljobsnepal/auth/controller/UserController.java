@@ -5,8 +5,10 @@ import com.globaljobsnepal.auth.dto.request.*;
 import com.globaljobsnepal.auth.dto.response.ConfirmPasswordResponseDto;
 import com.globaljobsnepal.auth.dto.response.LoginResponse;
 import com.globaljobsnepal.auth.entity.User;
+import com.globaljobsnepal.auth.entity.UserProfile;
 import com.globaljobsnepal.auth.provider.AppAuthenticationProvider;
 import com.globaljobsnepal.auth.service.JwtService;
+import com.globaljobsnepal.auth.service.UserProfileService;
 import com.globaljobsnepal.auth.service.contract.UserService;
 
 import com.globaljobsnepal.core.email.MailSenderService;
@@ -43,6 +45,7 @@ public class UserController {
 
     private final AppAuthenticationProvider appAuthenticationProvider;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final UserProfileService userProfileService;
 
     private final JwtService jwtService;
     private final MailSenderService mailSenderService;
@@ -175,6 +178,21 @@ public class UserController {
     }
 
 
+    @PostMapping("/update-profile")
+    public ResponseEntity<?> updateProfile(@RequestBody UserProfileReqDto req) {
+
+        User user = userProfileService.updateUserProfile(req);
+        return ApiResponse.success(user);
+
+    }
+
+    @GetMapping("/by-email")
+    public ResponseEntity<?> getByEmail(@RequestParam("email") String email) {
+        UserProfile userProfile = userProfileService.findByEmail(email)
+                .orElseThrow(() -> new CustomException("Email not found"));
+
+        return ApiResponse.success(userProfile);
+    }
 
 
 }
