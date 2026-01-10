@@ -31,7 +31,7 @@ public class UserProfileReqDto {
     private AddressDto address;
 
     private String phone;
-    private String education;
+    private List<EducationDto> education;
 
     private String skills;
 
@@ -52,5 +52,5 @@ public class UserProfileReqDto {
 
     private String resumeLinks;
 
-    private String socialMediaLinks;
+    private List<SocialMediaDto> socialMediaLinks;
 }

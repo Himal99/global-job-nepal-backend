@@ -34,7 +34,8 @@ public class UserProfile extends BaseEntity<Long> {
     private String phone;
 
 
-    private String education;
+    @Convert(converter = EducationConverter.class)
+    private List<EducationDto> education;
 
     private String skills;
 
@@ -55,7 +56,8 @@ public class UserProfile extends BaseEntity<Long> {
 
     private String resumeLinks;
 
-    private String socialMediaLinks;
+    @Convert(converter = SocialMediaConverter.class)
+    private List<SocialMediaDto> socialMediaLinks;
 
     private Long userId;
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import lombok.SneakyThrows;
 
 import java.util.List;
 
@@ -13,27 +12,23 @@ import java.util.List;
  * |   Author      : Himal Rai
  * |   Department  : JAVA
  * |   Company     : DIGI Hub
- * |   Created     : 1/9/2026 8:51 PM
+ * |   Created     : 1/10/2026 11:15 AM
  * -------------------------------------------------------------
  */
-
 @Converter(autoApply = true)
-public class AddressConverter implements AttributeConverter<List<AddressDto>, String> {
-
-
+public class EducationConverter implements AttributeConverter<EducationDto, String> {
     @Override
-    public String convertToDatabaseColumn(List<AddressDto> addressDtos) {
-        String string = "";
-        try {
-            string = new ObjectMapper().writeValueAsString(addressDtos);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return string;
+    public String convertToDatabaseColumn(EducationDto educationDto) {
+        return "";
     }
 
     @Override
-    public List<AddressDto> convertToEntityAttribute(String string) {
-        return List.of();
+    public EducationDto convertToEntityAttribute(String string) {
+        try {
+            return new ObjectMapper().readValue(string, new ObjectMapper().getTypeFactory()
+                    .constructCollectionType(List.class, EducationDto.class));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
