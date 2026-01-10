@@ -17,6 +17,6 @@ public class SocialMediaDto {
     private MediaType mediaType;
 
     public enum MediaType {
-        FB,INSTAGRAM,LINKEDIN,YOUTUBE,GITHUB,TWITTER
+        FB,INSTAGRAM,LINKEDIN,YOUTUBE,GITHUB,TWITTER,PERSONAL_SITE
     }
 }

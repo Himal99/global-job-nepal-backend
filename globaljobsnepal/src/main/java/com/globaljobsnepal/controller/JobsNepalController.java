@@ -71,4 +71,6 @@ public class JobsNepalController {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         return ApiResponse.success(vacancyService.getJobs(search, pageable));
     }
+
+
 }

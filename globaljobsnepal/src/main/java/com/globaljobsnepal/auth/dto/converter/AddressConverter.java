@@ -18,22 +18,25 @@ import java.util.List;
  */
 
 @Converter(autoApply = true)
-public class AddressConverter implements AttributeConverter<List<AddressDto>, String> {
+public class AddressConverter implements AttributeConverter<AddressDto, String> {
 
 
     @Override
-    public String convertToDatabaseColumn(List<AddressDto> addressDtos) {
-        String string = "";
+    public String convertToDatabaseColumn(AddressDto addressDto) {
         try {
-            string = new ObjectMapper().writeValueAsString(addressDtos);
+            return new ObjectMapper().writeValueAsString(addressDto);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return string;
     }
 
     @Override
-    public List<AddressDto> convertToEntityAttribute(String string) {
-        return List.of();
+    public AddressDto convertToEntityAttribute(String string) {
+        try {
+           return new ObjectMapper().readValue(string,AddressDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

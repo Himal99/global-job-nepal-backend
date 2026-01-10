@@ -34,6 +34,7 @@ public class UserProfile extends BaseEntity<Long> {
     private String phone;
 
 
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     @Convert(converter = EducationConverter.class)
     private List<EducationDto> education;
 

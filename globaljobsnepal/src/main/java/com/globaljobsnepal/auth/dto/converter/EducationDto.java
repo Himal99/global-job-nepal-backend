@@ -16,13 +16,17 @@ public class EducationDto {
     private String faculty;
     private String startDate;
     private String endDate;
-    private boolean running;
+    private EducationStatus status;
     private DegreeType degreeType;
 
 
 
     public  enum DegreeType{
         PLUS_2,BACHELOR,MASTER,PHD,DIPLOMA,OTHER
+    }
+
+    public enum EducationStatus{
+        RUNNING,GRADUATED
     }
 }
 
