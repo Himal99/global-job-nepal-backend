@@ -1,5 +1,7 @@
 package com.globaljobsnepal.auth.service;
 
+import com.globaljobsnepal.auth.dto.converter.EducationDto;
+import com.globaljobsnepal.auth.dto.converter.ExperienceDto;
 import com.globaljobsnepal.auth.dto.request.UserProfileReqDto;
 import com.globaljobsnepal.auth.entity.User;
 import com.globaljobsnepal.auth.entity.UserProfile;
@@ -7,12 +9,14 @@ import com.globaljobsnepal.auth.repo.UserProfileRepo;
 import com.globaljobsnepal.auth.service.contract.UserService;
 import com.globaljobsnepal.core.service.BaseService;
 import com.globaljobsnepal.exception.CustomException;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -41,9 +45,9 @@ public class UserProfileService implements BaseService<UserProfile> {
     }
 
 
-    public User updateUserProfile(UserProfileReqDto profileReqDto){
+    public User updateUserProfile(UserProfileReqDto profileReqDto) {
         User user = userService.findByEmail(profileReqDto.getEmail());
-        if(user == null){
+        if (user == null) {
             throw new CustomException("User not found");
         }
 
@@ -54,7 +58,7 @@ public class UserProfileService implements BaseService<UserProfile> {
 
         userProfile.setUserId(id);
         userProfileRepo.findByUserId(id)
-                .ifPresent(profile-> userProfile.setId(profile.getId()));
+                .ifPresent(profile -> userProfile.setId(profile.getId()));
 
         UserProfile profile = save(userProfile);
 
@@ -68,7 +72,7 @@ public class UserProfileService implements BaseService<UserProfile> {
     public Optional<UserProfile> findByEmail(String email) {
         User user = userService.findByEmail(email);
         Optional<UserProfile> userProfile = userProfileRepo.findByUserId(user.getId());
-        userProfile.ifPresent(profile->{
+        userProfile.ifPresent(profile -> {
             profile.setFirstName(user.getFirstName());
             profile.setLastName(user.getLastName());
             profile.setEmail(user.getEmail());
@@ -101,5 +105,56 @@ public class UserProfileService implements BaseService<UserProfile> {
     @Override
     public List<UserProfile> saveAll(List<UserProfile> list) {
         return profileRepo.saveAll(list);
+    }
+
+    @Transactional
+    public Object updateSection(String section, Object obj, String email) {
+        User user = userService.findByEmail(email);
+        if (user == null) {
+            throw new CustomException("User not found");
+        }
+
+        Long id = user.getId();
+
+
+        switch (section) {
+            case "ABOUT": {
+
+                Map<String,Object> map = new ObjectMapper().convertValue(obj, Map.class);
+
+                UserProfile userProfile = userProfileRepo.findByUserId(id)
+                        .orElseThrow(() -> new CustomException("User not found"));
+                userProfile.setAbout(map.getOrDefault("data","").toString());
+                return save(userProfile);
+
+            }
+            case "EDUCATION": {
+
+                List<EducationDto> educations = new ObjectMapper()
+                        .convertValue(obj, new ObjectMapper()
+                                .getTypeFactory()
+                                .constructCollectionType(List.class, EducationDto.class));
+
+                UserProfile userProfile = userProfileRepo.findByUserId(id)
+                        .orElseThrow(() -> new CustomException("User not found"));
+                userProfile.setEducation(educations);
+                return save(userProfile);
+            }
+
+            case "EXPERIENCE": {
+                List<ExperienceDto> educations = new ObjectMapper()
+                        .convertValue(obj, new ObjectMapper()
+                                .getTypeFactory()
+                                .constructCollectionType(List.class, ExperienceDto.class));
+
+                UserProfile userProfile = userProfileRepo.findByUserId(id)
+                        .orElseThrow(() -> new CustomException("User not found"));
+                userProfile.setExperience(educations);
+                return save(userProfile);
+            }
+            default:
+                return null;
+        }
+
     }
 }

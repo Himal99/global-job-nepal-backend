@@ -6,7 +6,10 @@ import com.globaljobsnepal.auth.dto.request.UserRegisterRequest;
 import com.globaljobsnepal.auth.dto.request.UserUpdateRequestDto;
 import com.globaljobsnepal.auth.dto.response.ConfirmPasswordResponseDto;
 import com.globaljobsnepal.auth.entity.User;
+import com.globaljobsnepal.auth.entity.UserProfile;
+import com.globaljobsnepal.auth.repo.UserProfileRepo;
 import com.globaljobsnepal.auth.repo.UserRepository;
+import com.globaljobsnepal.auth.service.UserProfileService;
 import com.globaljobsnepal.auth.service.contract.UserService;
 
 import com.globaljobsnepal.core.email.MailSenderService;
@@ -44,16 +47,16 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     private final MailSenderService mailSenderService;
-    private final AppUtils appUtils;
+    private final UserProfileRepo userProfileService;
 
-
-    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, UserMapper userMapper, MailSenderService mailSenderService, AppUtils appUtils) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, UserMapper userMapper, MailSenderService mailSenderService, UserProfileRepo userProfileService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
 
         this.userMapper = userMapper;
         this.mailSenderService = mailSenderService;
-        this.appUtils = appUtils;
+
+        this.userProfileService = userProfileService;
     }
 
 
@@ -90,7 +93,13 @@ public class UserServiceImpl implements UserService {
         User user = this.userMapper.convertToUser(userRegisterRequest, userTemp);
 
         User userSaved = this.repository.save(user);
-
+        UserProfile userProfile = new UserProfile();
+        userProfile.setUserId(userSaved.getId());
+        userProfile.setFirstName(userRegisterRequest.getFirstName());
+        userProfile.setLastName(userRegisterRequest.getLastName());
+        userProfile.setEmail(userRegisterRequest.getEmail());
+        userProfile.setPhone(userRegisterRequest.getPhoneNumber());
+userProfileService.save(userProfile);
         try {
             if (userRegisterRequest.getId() == null) {
                 this.sendAccountCreatedMailNotification(userRegisterRequest);

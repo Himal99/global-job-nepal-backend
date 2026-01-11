@@ -27,6 +27,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 import static com.globaljobsnepal.auth.controller.UserControllerApis.*;
 
 
@@ -192,6 +194,14 @@ public class UserController {
                 .orElseThrow(() -> new CustomException("Email not found"));
 
         return ApiResponse.success(userProfile);
+    }
+
+    @PostMapping("/update/{section}")
+    public ResponseEntity<?> updateDetailSection(@PathVariable("section") String section,
+                                                 @RequestParam("email") String email,
+                                                 @RequestBody Object object) {
+        Object resp = userProfileService.updateSection(section, object, email);
+        return ApiResponse.success(resp);
     }
 
 

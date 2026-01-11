@@ -19,7 +19,12 @@ import javax.sql.DataSource;
 
 @EnableAsync
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
-@SpringBootApplication
+@SpringBootApplication(
+        excludeName = {
+                "org.springframework.ai.autoconfigure.openai.OpenAiAutoConfiguration",
+                "org.springframework.ai.autoconfigure.openai.OpenAiAudioAutoConfiguration"
+        }
+)
 public class GlobaljobsnepalApplication {
     @Autowired
     DataSource dataSource;
