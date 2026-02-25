@@ -34,7 +34,8 @@ public class WebSecurityConfiguration {
             "/api/v1/compress/realtime-server-logs",
             "/api/v1/realtime/**",
             "/api/v1/compress-files",
-            "/api/v1/download/**"
+            "/api/v1/download/**",
+            "/api/v1/my-blog/**"
     };
 
     /**
